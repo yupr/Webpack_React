@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 //components
 import Test from './components/pages/Test'
-import Test2 from './components/pages/Test2'
+// import TestTS from './components/pages/TestTS'
 
 import './sass/index.scss'
 
@@ -18,7 +18,7 @@ const App = () => {
     <Router>
       <Switch>
         <Route exact path="/" component={Test} />
-        <Route path="/two" component={Test2} />
+        {/* <Route path="/ts" component={TestTS} /> */}
       </Switch>
     </Router>
   )

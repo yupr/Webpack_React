@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 
 
-const Test2 = (() => {
+const TestTS = (() => {
 
   return (
     <div>
@@ -12,4 +12,4 @@ const Test2 = (() => {
   )
 })
 
-export default Test2;
+export default TestTS;
