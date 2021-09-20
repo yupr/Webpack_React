@@ -1,12 +1,11 @@
-const path = require('path');
-const webpack = require('webpack');
+import path from 'path';
+import webpack from 'webpack';
 
 //CSSをJSにバンドルせずに出力するため
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 //ビルドする際にHTMLも同時に出力するため
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const src = path.resolve(__dirname, 'src')
 const dist = path.resolve(__dirname, 'dist')
@@ -25,31 +24,24 @@ module.exports = {
   mode: NODE_ENV === 'production' ? NODE_ENV : 'development',
 
   entry: [
-    src + '/index.js',
+    src + '/index.tsx',
   ],
   output: {
     path: dist,
-    //[hash] = キャッシュ対策
-    filename: 'bundle-[hash].js',
+    filename: 'bundle-[contenthash].js',
   },
 
   resolve: {
     alias: {
       'src': src,
       'components': `${src}/components`,
-      'atoms': `${src}/components/atoms`,
-      // 'img'        : `${src}/img`
     },
     extensions: ['.js', '.ts', '.tsx', '.json']
   },
   // ES5(IE11等)向けの指定（webpack 5以上で必要）
   // target: ["web", "es5"],
   module: {
-    rules: [{
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader'
-      },
+    rules: [
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
