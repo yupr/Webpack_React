@@ -1,17 +1,20 @@
 {
   "compilerOptions": {
     "sourceMap": true,
-    // TSはECMAScript 5に変換
+    // コンパイル後出力されるJSのバージョン
     "target": "es5",
-    // TSのモジュールはES Modulesとして出力
-    "module": "es2015",
+    // TSからJSにコンパイルする際、どのモジュールパターンにするかを指定
+    "module": "commonJs",
     // JSXの書式を有効に設定
     "jsx": "react",
     // node_modules からライブラリを読み込む
     "moduleResolution": "node",
+    // default importが使用可能
+    "esModuleInterop": true,
+    //コンパイル時に使用するライブラリ
     "lib": [
       "es2020",
       "dom"
-    ]
+    ],
   }
 }

@@ -1,12 +1,11 @@
-const path = require('path');
-const webpack = require('webpack');
+import path from 'path';
+import webpack from 'webpack';
 
 //CSSをJSにバンドルせずに出力するため
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 //ビルドする際にHTMLも同時に出力するため
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const src = path.resolve(__dirname, 'src')
 const dist = path.resolve(__dirname, 'dist')
@@ -19,37 +18,29 @@ console.log('*** NODE_ENV ***:', NODE_ENV)
 console.log('*** IS_DEVSERVER ***', IS_DEVSERVER)
 console.log('****************************')
 
-
 module.exports = {
   //モードの設定、v4系以降はmodeを指定しないと、webpack実行時に警告が出る。
   mode: NODE_ENV === 'production' ? NODE_ENV : 'development',
 
   entry: [
-    src + '/index.js',
+    src + '/index.tsx',
   ],
   output: {
     path: dist,
-    //[hash] = キャッシュ対策
-    filename: 'bundle-[hash].js',
+    filename: 'bundle-[contenthash].js',
   },
 
   resolve: {
     alias: {
       'src': src,
       'components': `${src}/components`,
-      'atoms': `${src}/components/atoms`,
-      // 'img'        : `${src}/img`
     },
     extensions: ['.js', '.ts', '.tsx', '.json']
   },
   // ES5(IE11等)向けの指定（webpack 5以上で必要）
   // target: ["web", "es5"],
   module: {
-    rules: [{
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader'
-      },
+    rules: [
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
@@ -89,7 +80,9 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true, //ルートが見つからない場合(404エラー)、index.htmlを返す
-    contentBase: dist, //devサーバーを立ち上げた際に表示されるディレクトリの指定
+    static: {
+      directory: dist, //devサーバーを立ち上げた際に表示されるディレクトリの指定
+    },
     port: 9000
   },
   plugins: [
@@ -104,7 +97,7 @@ module.exports = {
     }),
     //環境変数をモジュールに渡す。
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
+      'NODE_ENV': JSON.stringify(NODE_ENV),
     })
   ],
   performance: {
