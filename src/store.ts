@@ -5,7 +5,7 @@ import { createPromise } from 'redux-promise-middleware';
 import reducer from "./reducers";
 
 //reduxのロジック
-const promise = createPromise({ types: { fulfilled: 'success' } });
+const promise = createPromise({ promiseTypeSuffixes: ['LOADING', 'SUCCESS', 'ERROR'] });
 const middleware = applyMiddleware(promise, thunk, createLogger());
 
 export default createStore(reducer, middleware);

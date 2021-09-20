@@ -2,6 +2,6 @@
 
 - React hooks
 - webpack
-- .babelrc
 - TypeScript
 - Redux
+- Scss

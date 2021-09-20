@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-
-import Sea from '../../img/sea.jpg';
+import Sea from '../../img/sea.jpg'
+import './test.scss'
 
 const Test = (() => {
 
@@ -21,8 +21,8 @@ const Test = (() => {
   }, [])
 
   return (
-    <div>
-      <p>Test React</p>
+    <div className="test">
+      <p>Webpack React</p>
       <img src={Sea} alt="海の絵"></img>
     </div>
   )
