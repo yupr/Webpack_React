@@ -18,7 +18,6 @@ console.log('*** NODE_ENV ***:', NODE_ENV)
 console.log('*** IS_DEVSERVER ***', IS_DEVSERVER)
 console.log('****************************')
 
-
 module.exports = {
   //モードの設定、v4系以降はmodeを指定しないと、webpack実行時に警告が出る。
   mode: NODE_ENV === 'production' ? NODE_ENV : 'development',
@@ -81,7 +80,9 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true, //ルートが見つからない場合(404エラー)、index.htmlを返す
-    contentBase: dist, //devサーバーを立ち上げた際に表示されるディレクトリの指定
+    static: {
+      directory: dist, //devサーバーを立ち上げた際に表示されるディレクトリの指定
+    },
     port: 9000
   },
   plugins: [
@@ -96,7 +97,7 @@ module.exports = {
     }),
     //環境変数をモジュールに渡す。
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
+      'NODE_ENV': JSON.stringify(NODE_ENV),
     })
   ],
   performance: {
