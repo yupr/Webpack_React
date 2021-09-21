@@ -5,8 +5,6 @@ const initialState = {
 }
 
 function inputReducer(state = initialState, action) {
-  // console.log('actionnnnnn', action);
-  // console.log('stateeee', state);
   switch (action.type) {
     case "INPUT_DATA":
       return {

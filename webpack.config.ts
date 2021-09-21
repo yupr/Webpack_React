@@ -90,7 +90,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: src + '/index.html',
-      // favicon: src + '/img/start.jpeg', //ファビコンを設定
+      // favicon: src + '/img/sample.jpeg', //ファビコンを設定
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
