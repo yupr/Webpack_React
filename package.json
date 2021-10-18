@@ -4,7 +4,6 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "ver": "yarn --version",
     "dev": "cross-env NODE_ENV=local IS_DEVSERVER=1 webpack serve --color --mode development",
     "start-prod": "cross-env NODE_ENV=production webpack serve --color --open",
     "build": "webpack --progress"
