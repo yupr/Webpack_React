@@ -1,16 +1,13 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
-//components
-import Test from './components/pages/Test'
-
-import './sass/index.scss'
-
 import { Provider } from "react-redux"; //reduxを接続
 import store from "./store"; //storeとreduxを結びつける
 
-
+//---- pages ----
+import Test from './pages/Test'
+//---- style ----
+import './sass/index.scss'
 
 const App = () => {
   return (
