@@ -1,6 +1,6 @@
-import { combineReducers } from "redux";
-import inputReducer from "./inputReducer";
+import { combineReducers } from 'redux';
+import inputReducer from './inputReducer';
 
 export default combineReducers({
-  inputReducer
-})
+  inputReducer,
+});
