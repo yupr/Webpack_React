@@ -7,7 +7,7 @@
     "dev": "cross-env NODE_ENV=local IS_DEVSERVER=1 webpack serve --color --mode development",
     "start-prod": "cross-env NODE_ENV=production webpack serve --color --open",
     "build": "webpack --progress",
-    "lint": "eslint 'src/**/*.{ts,tsx}' --ignore-path .gitignore",
+    "lint": "eslint --ext .js,.ts,.tsx src/ --ignore-path .gitignore",
     "fmt": "prettier --write 'src/**/*.{ts,tsx}'"
   },
   "devDependencies": {
