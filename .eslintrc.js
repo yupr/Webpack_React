@@ -3,6 +3,11 @@ module.exports = {
     browser: true,
     es2021: true,
   },
+  settings: {
+    react: {
+      version: "detect"
+    }
+  },
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaFeatures: {
@@ -18,7 +23,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "prettier",
   ],
-  rules: {eyar
+  rules: {
     "no-var": 2,
   },
 };
