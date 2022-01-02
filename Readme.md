@@ -1,7 +1,9 @@
-# React(spa) + webpack  の 環境構築セット
+# React with Webpack Env Example
 
 - React Hooks
 - webpack5
 - TypeScript
 - Redux
 - Scss
+- Eslint
+- Prettier
