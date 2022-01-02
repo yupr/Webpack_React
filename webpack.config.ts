@@ -1,21 +1,20 @@
 import path from 'path';
 import webpack from 'webpack';
 
-//CSSをJSにバンドルせずに出力するため
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-
-//ビルドする際にHTMLも同時に出力するため
-import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'; //cssをjsにバンドルせずに出力
+import HtmlWebpackPlugin from 'html-webpack-plugin'; //ビルドする際にHTMLも同時に出力
+import RemoveEmptyScriptsPlugin from "webpack-remove-empty-scripts"; //不要なjsファイルを削除
 
 const src = path.resolve(__dirname, 'src')
 const dist = path.resolve(__dirname, 'dist')
 
 const NODE_ENV = process.env.NODE_ENV || 'production';
-const IS_DEVSERVER = !!(process.env.IS_DEVSERVER)
+const devMode = NODE_ENV !== "production";
+const enabledSourceMap = NODE_ENV === "development"; //開発時はソースマップを有効
 
 console.log('****************************')
 console.log('*** NODE_ENV ***:', NODE_ENV)
-console.log('*** IS_DEVSERVER ***', IS_DEVSERVER)
+console.log("*** enabledSourceMap ***:", enabledSourceMap);
 console.log('****************************')
 
 module.exports = {
@@ -28,8 +27,8 @@ module.exports = {
   output: {
     path: dist,
     filename: 'bundle-[contenthash].js',
+    assetModuleFilename: "assets/[name][ext]",
   },
-
   resolve: {
     alias: {
       'src': src,
@@ -37,8 +36,7 @@ module.exports = {
     },
     extensions: ['.js', '.ts', '.tsx', '.json']
   },
-  // ES5(IE11等)向けの指定（webpack 5以上で必要）
-  // target: ["web", "es5"],
+  target: ["web", "es5"],
   module: {
     rules: [
       {
@@ -47,41 +45,50 @@ module.exports = {
         loader: 'ts-loader'
       },
       {
-        test: /\.(scss|css)$/,
+        test: /\.(scss|css|sass)$/i,
         use: [
-          // IS_DEVSERVER ? "style-loader" : MiniCssExtractPlugin.loader,
-          // バンドル後のjsファイルからcss部分を別ファイルとして出力してlinkタグに読み込ませる。
-          MiniCssExtractPlugin.loader,
+          // style-loader: バンドルされたjs内にあるcssの処理をhtmlのhead内に<style></style>として出力する
+          // MiniCssExtractPlugin: cssをバンドル対象から外し、cssを別ファイルとして生成+出力してlinkタグに読み込ませる。
+          devMode
+          ? "style-loader"
+          : MiniCssExtractPlugin.loader,
           {
+            // cssをjsにバンドル
             loader: "css-loader",
             options: {
-              url: false,
-              sourceMap: true
-            }
+              sourceMap: enabledSourceMap,
+            },
           },
           {
+            // sassをcssに変換
             loader: "sass-loader",
             options: {
-              sourceMap: true
-            }
+              sourceMap: enabledSourceMap,
+              warnRuleAsWarning: true,
+            },
           }
         ]
       },
       {
-        test: /\.(gif|png|jpg|jpeg|eot|wof|woff|woff2|ttf|svg)$/,
-        use: [{
-          loader: 'file-loader', //fileをjsにバンドルせずにリソースとして出力する。
-          options: {
-            name: 'assets/[name].[ext]',
-          }
-        }]
-      }
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "img/[name][ext]",
+        },
+      },
+      {
+        test: /\.(eot|wof|woff|woff2|ttf|otf)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "font/[name][ext]",
+        },
+      },
     ]
   },
   devServer: {
     historyApiFallback: true, //ルートが見つからない場合(404エラー)、index.htmlを返す
     static: {
-      directory: dist, //devサーバーを立ち上げた際に表示されるディレクトリの指定
+      directory: dist, //devサーバーを立ち上げた際に表示されるディレクトリの指定
     },
     port: 9000
   },
@@ -98,7 +105,8 @@ module.exports = {
     //環境変数をモジュールに渡す。
     new webpack.DefinePlugin({
       'NODE_ENV': JSON.stringify(NODE_ENV),
-    })
+    }),
+    new RemoveEmptyScriptsPlugin(),
   ],
   performance: {
     hints: false
